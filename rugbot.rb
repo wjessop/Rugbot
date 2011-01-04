@@ -52,6 +52,10 @@ end
 
 on :channel, /^artme (.*?)$/ do |art|
   begin
+    if art == 'random'
+      lns = File.readlines("/usr/share/dict/words")
+      art = lns[rand(lns.size)].strip
+    end
     doc = JSON.parse(open("http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="+CGI::escape(art)).read)
     msg channel, doc["responseData"]["results"][0]["url"]
   rescue
