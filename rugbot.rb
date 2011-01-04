@@ -3,6 +3,9 @@ require 'isaac'
 require 'twitter'
 require 'curb'
 require 'nokogiri'
+require 'open-uri'
+require 'cgi'
+require 'json'
 
 configure do |c|
   c.nick    = "rugbot"
@@ -49,7 +52,6 @@ end
 
 on :channel, /^artme (.*?)$/ do |art|
   begin
-    ["rubygems","open-uri","cgi","json"].map{|f|require f}
     doc = JSON.parse(open("http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="+CGI::escape(art)).read)
     msg channel, doc["responseData"]["results"][0]["url"]
   rescue
