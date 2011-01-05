@@ -7,6 +7,8 @@ require 'open-uri'
 require 'cgi'
 require 'json'
 
+BOT_NAME = 'rugbot'
+
 def ordinalize(number)
   if (11..13).include?(number.to_i % 100)
     "#{number}th"
@@ -21,7 +23,7 @@ def ordinalize(number)
 end
 
 configure do |c|
-  c.nick    = "rugbot"
+  c.nick    = BOT_NAME
   c.server  = "irc.freenode.net"
   c.port    = 6667
 end
@@ -36,6 +38,10 @@ end
 
 on :channel, /^roll$/ do
   msg channel, "#{nick} rolls a six sided die and gets #{rand(6) +1}"
+end
+
+on :channel, /ACTION(.*)pokes #{Regexp.escape(BOT_NAME)}/ do
+    action channel, "giggles at #{nick}"
 end
 
 # http://twitter.com/stealthygecko/status/20892091689
