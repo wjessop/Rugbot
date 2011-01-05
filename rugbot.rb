@@ -75,10 +75,6 @@ on :channel, /^nextmeet/ do
   msg channel, nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B")
 end
 
-on :channel, /^(.*) stabs/ do |username|
-  msg channel, "/me stabs #{username}"
-end
-
 on :channel, /^artme (.*?)$/ do |art|
   begin
     if art == 'random'
