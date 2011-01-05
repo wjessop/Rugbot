@@ -17,6 +17,10 @@ on :connect do
   join "#nwrug"
 end
 
+on :channel, /^roll$/ do
+  msg channel, "#{nick} rolls a six sided die and gets #{rand(6) +1}"
+end
+
 # http://twitter.com/stealthygecko/status/20892091689
 on :channel, /https?:\/\/twitter.com\/[\w-]+\/status\/(\d+)/ do |tweet_id|
   begin
