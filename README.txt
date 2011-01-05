@@ -14,7 +14,7 @@ Commands
 
 A list of available commands
 
-- netmeet
+- nextmeet
 
 The date of the next meetup
 
