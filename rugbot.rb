@@ -30,6 +30,10 @@ on :connect do
   join "#nwrug"
 end
 
+on :channel, /^(help|commands)$/ do
+  msg channel, "roll, nextmeet, artme <string>"
+end
+
 on :channel, /^roll$/ do
   msg channel, "#{nick} rolls a six sided die and gets #{rand(6) +1}"
 end
