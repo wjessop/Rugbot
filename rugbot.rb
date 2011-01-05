@@ -75,8 +75,12 @@ on :channel, /^nextmeet/ do
   msg channel, nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B")
 end
 
-on :channel, /^(.*) stabs/ do |username|
-  msg channel, "/me stabs #{username}"
+on :channel, /^.* stabs/ do
+  action channel, "stabs #{nick}"
+end
+
+on :channel, /^stab (.*?)$/ do |user|
+  action channel, "stabs #{user}"
 end
 
 on :channel, /^artme (.*?)$/ do |art|
