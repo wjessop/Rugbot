@@ -7,6 +7,19 @@ require 'open-uri'
 require 'cgi'
 require 'json'
 
+def ordinalize(number)
+  if (11..13).include?(number.to_i % 100)
+    "#{number}th"
+  else
+    case number.to_i % 10
+      when 1; "#{number}st"
+      when 2; "#{number}nd"
+      when 3; "#{number}rd"
+      else    "#{number}th"
+    end
+  end
+end
+
 configure do |c|
   c.nick    = "rugbot"
   c.server  = "irc.freenode.net"
@@ -47,7 +60,11 @@ on :channel, /(https?:\/\/\S+)/ do |url|
 end
 
 on :channel, /^nextmeet/ do
-  msg channel, "Third Thursday"
+  beginning_of_month = Date.civil(Time.now.year, Time.now.month, 1)
+  nwrug = beginning_of_month + (18 - beginning_of_month.wday)
+  nwrug += 7 if beginning_of_month.wday > 4
+
+  msg channel, nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B")
 end
 
 on :channel, /^artme (.*?)$/ do |art|
