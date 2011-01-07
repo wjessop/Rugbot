@@ -1,8 +1,6 @@
 require 'rubygems'
 require 'isaac'
 require 'twitter'
-require 'curb'
-require 'nokogiri'
 require 'open-uri'
 require 'cgi'
 require 'json'
@@ -23,9 +21,9 @@ def ordinalize(number)
 end
 
 configure do |c|
-  c.nick    = BOT_NAME
-  c.server  = "irc.freenode.net"
-  c.port    = 6667
+  c.nick = BOT_NAME
+  c.server = "irc.freenode.net"
+  c.port = 6667
 end
 
 on :connect do
@@ -67,7 +65,7 @@ end
 
 on :channel, /(https?:\/\/\S+)/ do |url|
   begin
-    title = Nokogiri::HTML(Curl::Easy.perform(url).body_str).css('title').first.content
+    title = open(url).read.to_s.match(/<title[^>]+>(.*)<\/title>/i)[1]
     msg channel, "#{title}"
   rescue
   end
