@@ -46,7 +46,9 @@ on :channel, /ACTION(.*)pokes #{Regexp.escape(BOT_NAME)}/ do
 end
 
 # http://twitter.com/stealthygecko/status/20892091689
-on :channel, /https?:\/\/twitter.com\/[\w-]+\/status\/(\d+)/ do |tweet_id|
+# http://twitter.com/#!/stealthygecko/status/20892091689
+# And https | trailing /
+on :channel, /https?:\/\/twitter.com(?:\/#!)?\/[\w-]+\/status\/(\d+)/ do |tweet_id|
   begin
     tweet = Twitter.status(tweet_id)
     user = tweet.user
@@ -56,7 +58,10 @@ on :channel, /https?:\/\/twitter.com\/[\w-]+\/status\/(\d+)/ do |tweet_id|
   msg channel, "#{tweet.text} - #{user.name} (#{user.screen_name})" if tweet
 end
 
-on :channel, /http:\/\/twitter\.com\/\#!\/(.*?)$/ do |user|
+# http://twitter.com/stealthygecko
+# http://twitter.com/#!/stealthygecko
+# And https | trailing /
+on :channel, /https?:\/\/twitter\.com(?:\/#!)?\/([^\/]+?)(?:$|\s)/ do |user|
   begin
    u = Twitter.user(user)
    msg channel, "#{u.name} (#{u.screen_name}) - #{u.description} #{u.profile_image_url}"
