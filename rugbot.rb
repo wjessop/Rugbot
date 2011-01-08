@@ -34,7 +34,7 @@ on :connect do
 end
 
 on :channel, /^(help|commands)$/ do
-  msg channel, "roll, nextmeet, artme <string>"
+  msg channel, "roll, nextmeet, artme <string>, stab <nick>"
 end
 
 on :channel, /^roll$/ do

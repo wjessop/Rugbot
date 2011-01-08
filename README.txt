@@ -14,6 +14,10 @@ Commands
 
 A list of available commands
 
+- roll
+
+Rolls a 6-sided dice and tells you the result
+
 - nextmeet
 
 The date of the next meetup
@@ -21,3 +25,7 @@ The date of the next meetup
 - artme <string>
 
 Display the first image from a google image search for <string>. If <string> is 'random' a random word will be pulled from the linux dictionary.
+
+- stab <nick>
+
+Rugbot stabs the specified user
