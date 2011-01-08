@@ -45,6 +45,36 @@ on :channel, /ACTION(.*)pokes #{Regexp.escape(BOT_NAME)}/ do
     action channel, "giggles at #{nick}"
 end
 
+on :channel, /^nextmeet/ do
+  beginning_of_month = Date.civil(Time.now.year, Time.now.month, 1)
+  nwrug = beginning_of_month + (18 - beginning_of_month.wday)
+  nwrug += 7 if beginning_of_month.wday > 4
+
+  msg channel, nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B")
+end
+
+on :channel, /^.* stabs/ do
+  action channel, "stabs #{nick}"
+end
+
+on :channel, /^stab (.*?)$/ do |user|
+  action channel, "stabs #{user}"
+end
+
+on :channel, /^artme (.*?)$/ do |art|
+  begin
+    if art == 'random'
+      lns = File.readlines("/usr/share/dict/words")
+      art = lns[rand(lns.size)].strip
+    end
+    url = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=#{CGI::escape(art)}"
+    doc = JSON.parse(Curl::Easy.perform(url).body_str)
+    msg channel, doc["responseData"]["results"][0].["url"]
+  rescue
+    msg channel, "No result"
+  end
+end
+
 # http://twitter.com/stealthygecko/status/20892091689
 # http://twitter.com/#!/stealthygecko/status/20892091689
 # And https | trailing /
@@ -76,35 +106,5 @@ on :channel, /(https?:\/\/\S+)/ do |url|
     title = Nokogiri::HTML(Curl::Easy.perform(url).body_str).css('title').first.content
     msg channel, "#{title}"
   rescue
-  end
-end
-
-on :channel, /^nextmeet/ do
-  beginning_of_month = Date.civil(Time.now.year, Time.now.month, 1)
-  nwrug = beginning_of_month + (18 - beginning_of_month.wday)
-  nwrug += 7 if beginning_of_month.wday > 4
-
-  msg channel, nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B")
-end
-
-on :channel, /^.* stabs/ do
-  action channel, "stabs #{nick}"
-end
-
-on :channel, /^stab (.*?)$/ do |user|
-  action channel, "stabs #{user}"
-end
-
-on :channel, /^artme (.*?)$/ do |art|
-  begin
-    if art == 'random'
-      lns = File.readlines("/usr/share/dict/words")
-      art = lns[rand(lns.size)].strip
-    end
-    url = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=#{CGI::escape(art)}"
-    doc = JSON.parse(Curl::Easy.perform(url).body_str)
-    msg channel, doc["responseData"]["results"][0].["url"]
-  rescue
-    msg channel, "No result"
   end
 end
