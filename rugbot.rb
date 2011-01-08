@@ -37,7 +37,7 @@ end
 on :channel, /^(help|commands)$/ do
   log_user_seen(nick)
 
-  msg channel, "roll, nextmeet, artme <string>, stab <nick>, seen <nick>, ramg"
+  msg channel, "roll, nextmeet, artme <string>, stab <nick>, seen <nick>, ram"
 end
 
 on :channel, /^roll$/ do
