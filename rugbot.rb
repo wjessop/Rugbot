@@ -7,6 +7,7 @@ require 'curb'
 require 'nokogiri'
 require 'cgi'
 require 'json'
+require "time"
 
 require File.expand_path("rugbot_helper", File.dirname(__FILE__))
 
@@ -96,6 +97,14 @@ on :channel, /^ram\s*$/ do
 
   usage = `ps -p #{Process.pid} -o rss=`.strip.chomp.to_i
   msg channel, ( "#{nick}: current usage is %.2f MB" % (usage/1024.0))
+end
+
+# Replies with the current uptime of this bot
+on :channel, /^uptime\s*$/ do
+  log_user_seen(nick)
+
+  start_time = Time.parse(`ps -p #{Process.pid} -o lsize=`.strip.chomp)
+  msg channel, "#{nick}: I've been running for #{(Time.now - start_time).to_time_length}"
 end
 
 # http://twitter.com/stealthygecko/status/20892091689
