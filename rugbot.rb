@@ -9,6 +9,7 @@ require 'cgi'
 require 'json'
 
 BOT_NAME = 'rugbot'
+SEEN_LIST = {}
 
 def ordinalize(number)
   if (11..13).include?(number.to_i % 100)
@@ -34,18 +35,26 @@ on :connect do
 end
 
 on :channel, /^(help|commands)$/ do
+  log_user_seen(nick)
+
   msg channel, "roll, nextmeet, artme <string>, stab <nick>"
 end
 
 on :channel, /^roll$/ do
+  log_user_seen(nick)
+
   msg channel, "#{nick} rolls a six sided die and gets #{rand(6) +1}"
 end
 
 on :channel, /ACTION(.*)pokes #{Regexp.escape(BOT_NAME)}/ do
+  log_user_seen(nick)
+
     action channel, "giggles at #{nick}"
 end
 
 on :channel, /^nextmeet/ do
+  log_user_seen(nick)
+
   beginning_of_month = Date.civil(Time.now.year, Time.now.month, 1)
   nwrug = beginning_of_month + (18 - beginning_of_month.wday)
   nwrug += 7 if beginning_of_month.wday > 4
@@ -54,14 +63,20 @@ on :channel, /^nextmeet/ do
 end
 
 on :channel, /^.* stabs/ do
+  log_user_seen(nick)
+
   action channel, "stabs #{nick}"
 end
 
 on :channel, /^stab (.*?)$/ do |user|
+  log_user_seen(nick)
+
   action channel, "stabs #{user}"
 end
 
 on :channel, /^artme (.*?)$/ do |art|
+  log_user_seen(nick)
+
   begin
     if art == 'random'
       lns = File.readlines("/usr/share/dict/words")
@@ -75,10 +90,22 @@ on :channel, /^artme (.*?)$/ do |art|
   end
 end
 
+on :channel, /^seen (.*?)$/ do |user|
+  log_user_seen(nick)
+
+  msg channel, if SEEN_LIST.has_key?(user)
+    "#{nick}: I last saw #{user.inspect} speak at #{SEEN_LIST[user].strftime("%H:%M:%S on %y-%m-%d")}"
+  else
+    "#{nick}: not seen #{user.inspect} speak yet, sorry"
+  end
+end
+
 # http://twitter.com/stealthygecko/status/20892091689
 # http://twitter.com/#!/stealthygecko/status/20892091689
 # And https | trailing /
 on :channel, /https?:\/\/twitter.com(?:\/#!)?\/[\w-]+\/status\/(\d+)/ do |tweet_id|
+  log_user_seen(nick)
+
   begin
     tweet = Twitter.status(tweet_id)
     user = tweet.user
@@ -92,6 +119,8 @@ end
 # http://twitter.com/#!/stealthygecko
 # And https | trailing /
 on :channel, /https?:\/\/twitter\.com(?:\/#!)?\/([^\/]+?)(?:$|\s)/ do |user|
+  log_user_seen(nick)
+
   begin
    u = Twitter.user(user)
    msg channel, "#{u.name} (#{u.screen_name}) - #{u.description} #{u.profile_image_url}"
@@ -102,9 +131,20 @@ on :channel, /https?:\/\/twitter\.com(?:\/#!)?\/([^\/]+?)(?:$|\s)/ do |user|
 end
 
 on :channel, /(https?:\/\/\S+)/ do |url|
+  log_user_seen(nick)
+
   begin
     title = Nokogiri::HTML(Curl::Easy.perform(url).body_str).css('title').first.content
     msg channel, "#{title}"
   rescue
   end
+end
+
+# Catchall for seen
+on :channel, /.*/ do
+  log_user_seen(nick)
+end
+
+def log_user_seen nick
+  SEEN_LIST[nick] = Time.now
 end
