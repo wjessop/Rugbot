@@ -103,7 +103,7 @@ end
 on :channel, /^uptime\s*$/ do
   log_user_seen(nick)
 
-  start_time = Time.parse(`ps -p #{Process.pid} -o lsize=`.strip.chomp)
+  start_time = Time.parse(`ps -p #{Process.pid} -o lstart=`.strip.chomp)
   msg channel, "#{nick}: I've been running for #{(Time.now - start_time).to_time_length}"
 end
 
