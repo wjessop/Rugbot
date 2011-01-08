@@ -29,3 +29,7 @@ Display the first image from a google image search for <string>. If <string> is 
 - stab <nick>
 
 Rugbot stabs the specified user
+
+- seen <nick>
+
+Tells you the last time we saw the user speak, if indeed we have.
