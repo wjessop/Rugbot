@@ -93,6 +93,7 @@ end
 on :channel, /^seen (.*?)$/ do |user|
   log_user_seen(nick)
 
+  user = user.downcase
   msg channel, if SEEN_LIST.has_key?(user)
     "#{nick}: I last saw #{user.inspect} speak at #{SEEN_LIST[user].strftime("%H:%M:%S on %y-%m-%d")}"
   else
@@ -146,5 +147,5 @@ on :channel, /.*/ do
 end
 
 def log_user_seen nick
-  SEEN_LIST[nick] = Time.now
+  SEEN_LIST[nick.downcase] = Time.now
 end
