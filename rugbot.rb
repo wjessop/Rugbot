@@ -1,4 +1,6 @@
 require 'rubygems'
+require "bundler/setup"
+
 require 'isaac'
 require 'twitter'
 require 'curb'
