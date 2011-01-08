@@ -37,7 +37,7 @@ end
 on :channel, /^(help|commands)$/ do
   log_user_seen(nick)
 
-  msg channel, "roll, nextmeet, artme <string>, stab <nick>, seen <nick>"
+  msg channel, "roll, nextmeet, artme <string>, stab <nick>, seen <nick>, ramg"
 end
 
 on :channel, /^roll$/ do
@@ -99,6 +99,14 @@ on :channel, /^seen (.*?)$/ do |user|
   else
     "#{nick}: not seen #{user.inspect} speak yet, sorry"
   end
+end
+
+# Replies with the current ram usage of this bot
+on :channel, /^ram\s*$/ do
+  log_user_seen(nick)
+
+  usage = `ps -p #{Process.pid} -o rss=`.strip.chomp.to_i
+  msg channel, ( "#{nick}: current usage is %.2f MB" % (usage/1024.0))
 end
 
 # http://twitter.com/stealthygecko/status/20892091689

@@ -33,3 +33,7 @@ Rugbot stabs the specified user
 - seen <nick>
 
 Tells you the last time we saw the user speak, if indeed we have.
+
+- ram
+
+Outputs the current ram usage of the bot.
