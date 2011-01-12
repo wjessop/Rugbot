@@ -48,8 +48,14 @@ on :channel, /^nextmeet/ do
   beginning_of_month = Date.civil(Time.now.year, Time.now.month, 1)
   nwrug = beginning_of_month + (18 - beginning_of_month.wday)
   nwrug += 7 if beginning_of_month.wday > 4
-
-  msg channel, nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B")
+  
+  begin
+    subject = Nokogiri::HTML(Curl::Easy.perform("http://nwrug.org/events/#{nwrug.strftime("%B%y").downcase}").body_str).css('title').first.content.split("-")[1].strip
+  rescue
+    subject = nil
+  end
+  
+  msg channel, [nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B"),subject].join(" - ")
 end
 
 on :channel, /^.* stabs/ do
