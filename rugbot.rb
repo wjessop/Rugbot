@@ -42,6 +42,11 @@ on :channel, /ACTION(.*)pokes #{Regexp.escape(BOT_NAME)}/ do
     action channel, "giggles at #{nick}"
 end
 
+on :channel, /^37status$/ do
+   doc = JSON.parse(Curl::Easy.perform('http://status.37signals.com/status.json').body_str)
+   msg channel, "#{doc['status']['mood']}: #{doc['status']['description']}"
+end
+
 on :channel, /^nextmeet/ do
   log_user_seen(nick)
 
