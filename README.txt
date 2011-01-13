@@ -41,3 +41,7 @@ Outputs the current ram usage of the bot.
 - uptime
 
 Outputs the current uptime of the bot.
+
+- 37status
+
+The status of 37signals stuffs (http://status.37signals.com/api)
