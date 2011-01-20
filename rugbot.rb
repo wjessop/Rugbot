@@ -59,8 +59,18 @@ on :channel, /^nextmeet/i do
   rescue
     subject = nil
   end
-  
-  msg channel, [nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B"),subject].join(" - ")
+
+  date_string = case nwrug
+  when Date.today
+    "Today"
+  when (Date.today + 1)
+    "Tomorrow"
+  else
+    nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B")
+  end
+
+  # Flatten makes sure we don't end up with "Today - ", but "Today" instead.
+  msg channel, [string, subject].flatten.join(" - ")
 end
 
 on :channel, /^.* stabs/i do
