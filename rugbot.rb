@@ -24,30 +24,30 @@ on :connect do
   join "#nwrug"
 end
 
-on :channel, /^(help|commands)$/ do
+on :channel, /^(help|commands)$/i do
   log_user_seen(nick)
 
   msg channel, "roll, nextmeet, artme <string>, stab <nick>, seen <nick>, ram, uptime, 37status"
 end
 
-on :channel, /^roll$/ do
+on :channel, /^roll$/i do
   log_user_seen(nick)
 
   msg channel, "#{nick} rolls a six sided die and gets #{rand(6) +1}"
 end
 
-on :channel, /ACTION(.*)pokes #{Regexp.escape(BOT_NAME)}/ do
+on :channel, /ACTION(.*)pokes #{Regexp.escape(BOT_NAME)}/i do
   log_user_seen(nick)
 
     action channel, "giggles at #{nick}"
 end
 
-on :channel, /^37status$/ do
+on :channel, /^37status$/i do
    doc = JSON.parse(Curl::Easy.perform('http://status.37signals.com/status.json').body_str)
    msg channel, "#{doc['status']['mood']}: #{doc['status']['description']}"
 end
 
-on :channel, /^nextmeet/ do
+on :channel, /^nextmeet/i do
   log_user_seen(nick)
 
   beginning_of_month = Date.civil(Time.now.year, Time.now.month, 1)
@@ -63,19 +63,19 @@ on :channel, /^nextmeet/ do
   msg channel, [nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B"),subject].join(" - ")
 end
 
-on :channel, /^.* stabs/ do
+on :channel, /^.* stabs/i do
   log_user_seen(nick)
 
   action channel, "stabs #{nick}"
 end
 
-on :channel, /^stab (.*?)$/ do |user|
+on :channel, /^stab (.*?)$/i do |user|
   log_user_seen(nick)
 
   action channel, "stabs #{user}"
 end
 
-on :channel, /^artme (.*?)$/ do |art|
+on :channel, /^artme (.*?)$/i do |art|
   log_user_seen(nick)
 
   begin
@@ -91,7 +91,7 @@ on :channel, /^artme (.*?)$/ do |art|
   end
 end
 
-on :channel, /^seen (.*?)$/ do |user|
+on :channel, /^seen (.*?)$/i do |user|
   log_user_seen(nick)
 
   user = user.downcase
@@ -103,7 +103,7 @@ on :channel, /^seen (.*?)$/ do |user|
 end
 
 # Replies with the current ram usage of this bot
-on :channel, /^ram\s*$/ do
+on :channel, /^ram\s*$/i do
   log_user_seen(nick)
 
   usage = `ps -p #{Process.pid} -o rss=`.strip.chomp.to_i
@@ -111,7 +111,7 @@ on :channel, /^ram\s*$/ do
 end
 
 # Replies with the current uptime of this bot
-on :channel, /^uptime\s*$/ do
+on :channel, /^uptime\s*$/i do
   log_user_seen(nick)
 
   start_time = Time.parse(`ps -p #{Process.pid} -o lstart=`.strip.chomp)
@@ -121,7 +121,7 @@ end
 # http://twitter.com/stealthygecko/status/20892091689
 # http://twitter.com/#!/stealthygecko/status/20892091689
 # And https | trailing /
-on :channel, /https?:\/\/twitter.com(?:\/#!)?\/[\w-]+\/status\/(\d+)/ do |tweet_id|
+on :channel, /https?:\/\/twitter.com(?:\/#!)?\/[\w-]+\/status\/(\d+)/i do |tweet_id|
   log_user_seen(nick)
 
   begin
@@ -136,7 +136,7 @@ end
 # http://twitter.com/stealthygecko
 # http://twitter.com/#!/stealthygecko
 # And https | trailing /
-on :channel, /https?:\/\/twitter\.com(?:\/#!)?\/([^\/]+?)(?:$|\s)/ do |user|
+on :channel, /https?:\/\/twitter\.com(?:\/#!)?\/([^\/]+?)(?:$|\s)/i do |user|
   log_user_seen(nick)
 
   begin
@@ -148,7 +148,7 @@ on :channel, /https?:\/\/twitter\.com(?:\/#!)?\/([^\/]+?)(?:$|\s)/ do |user|
   end
 end
 
-on :channel, /(https?:\/\/\S+)/ do |url|
+on :channel, /(https?:\/\/\S+)/i do |url|
   log_user_seen(nick)
 
   begin
