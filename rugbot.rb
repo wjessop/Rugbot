@@ -72,7 +72,7 @@ on :channel, /^nextmeet/i do
   end
 
   # Flatten makes sure we don't end up with "Today - ", but "Today" instead.
-  msg channel, [string, subject].flatten.join(" - ")
+  msg channel, [date_string, subject].flatten.join(" - ")
 end
 
 on :channel, /^.* stabs/i do
