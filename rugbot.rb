@@ -78,11 +78,12 @@ end
 on :channel, /^.* stabs/i do
   log_user_seen(nick)
 
-  action channel, "stabs #{nick}"
+  action channel, "stabs #{nick}" unless nick == "rugbot"
 end
 
 on :channel, /^stab (.*?)$/i do |user|
   log_user_seen(nick)
+  user = nick if user == "rugbot"
 
   action channel, "stabs #{user}"
 end
