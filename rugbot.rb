@@ -27,7 +27,7 @@ end
 on :channel, /^(help|commands)$/i do
   log_user_seen(nick)
 
-  msg channel, "roll, nextmeet, artme <string>, stab <nick>, seen <nick>, ram, uptime, 37status"
+  msg channel, "roll, nextmeet, artme <string>, stab <nick>, seen <nick>, ram, uptime, 37status, boobs"
 end
 
 on :channel, /^roll$/i do
@@ -85,6 +85,12 @@ on :channel, /^stab (.*?)$/i do |user|
   log_user_seen(nick)
 
   action channel, "stabs #{user}"
+end
+
+on :channel, /^b(oo|ew)bs$/ do |user|
+  log_user_seen(nick)
+
+  msg channel, "(.)(.)"
 end
 
 on :channel, /^artme (.*?)$/i do |art|
