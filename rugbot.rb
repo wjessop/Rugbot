@@ -8,6 +8,7 @@ require 'nokogiri'
 require 'cgi'
 require 'json'
 require "time"
+require "uri"
 
 require File.expand_path("rugbot_helper", File.dirname(__FILE__))
 
@@ -106,7 +107,7 @@ on :channel, /^artme (.*?)$/i do |art|
     end
     url = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=#{CGI::escape(art)}"
     doc = JSON.parse(Curl::Easy.perform(url).body_str)
-    msg channel, doc["responseData"]["results"][0]["url"]
+    msg channel, URI::unescape(doc["responseData"]["results"][0]["url"])
   rescue
     msg channel, "No result"
   end
