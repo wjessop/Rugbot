@@ -78,7 +78,7 @@ on :channel, /^nextmeet/i do
   msg channel, details
 end
 
-on :channel, /^.* stabs/i do
+on :channel, /^.* st[aа]bs/i do
   log_user_seen(nick)
 
   action channel, "stabs #{nick}" unless nick == "rugbot"
