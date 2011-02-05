@@ -12,7 +12,7 @@ require "uri"
 
 require File.expand_path("rugbot_helper", File.dirname(__FILE__))
 
-BOT_NAME = 'rugbut'
+BOT_NAME = 'rugbot'
 SEEN_LIST = {}
 
 configure do |c|
