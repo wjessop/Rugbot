@@ -51,35 +51,39 @@ on :channel, /^37status$/i do
 end
 
 on :channel, /^nextmeet/i do
-  # log_user_seen(nick)
-  # 
-  # beginning_of_month = Date.civil(Time.now.year, Time.now.month, 1)
-  # nwrug = beginning_of_month + (18 - beginning_of_month.wday)
-  # nwrug += 7 if beginning_of_month.wday > 4
-  # 
-  # begin
-  #   subject = Nokogiri::HTML(Curl::Easy.perform("http://nwrug.org/events/#{nwrug.strftime("%B%y").downcase}").body_str).css('title').first.content.split("-")[1].strip
-  # rescue
-  #   subject = nil
-  # end
-  # 
-  # date_string = case nwrug
-  # when Date.today
-  #   "Today"
-  # when (Date.today + 1)
-  #   "Tomorrow"
-  # else
-  #   nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B")
-  # end
+  log_user_seen(nick)
+
+  # Setup vars we need
+  nwrug = nil
+  details = nil
+
+  begin
+    # Grab ze string from ze website
+    entry_title = Nokogiri::HTML(Curl::Easy.perform("http://nwrug.org/events/").body_str).css('.first_entry h3').first.content.gsub("\342\200\223", "-").strip
+    # Figure out the details we want to return
+    meeting_date, meeting_title = entry_title.split(" - ")
+
+    if (d = Date.parse(meeting_date)) && d <= Date.today
+      nwrug = d
+      details = meeting_title
+    end
+  rescue
+  end
+
+  # In case we couldn't parse a current time from the website
+  nwrug ||= nwrug_meet_for Time.now.year, Time.now.month
+
+  date_string = case nwrug
+  when Date.today
+    "Today"
+  when (Date.today + 1)
+    "Tomorrow"
+  else
+    nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B")
+  end
 
   # Flatten makes sure we don't end up with "Today - ", but "Today" instead.
-  # msg channel, [string, subject].flatten.join(" - ")
-  
-  
-  beginning_of_month = Date.civil(Time.now.year, Time.now.month, 1)
-  nwrug = beginning_of_month + (18 - beginning_of_month.wday)
-  nwrug += 7 if beginning_of_month.wday > 4
-  msg channel, nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B")
+  msg channel, [date_string, details].flatten.join(" - ")
 end
 
 on :channel, /^.* st[aа]bs/i do
