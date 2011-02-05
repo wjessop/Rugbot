@@ -51,3 +51,25 @@ module NumericTimeLength
   end
 end
 Numeric.send(:include, NumericTimeLength)
+
+
+# Works out the *next* 3rd thursday of the month. ie, if we're past the 
+# 3rd thursday in the current month it'll return the 3rd thursday of next month.
+def nwrug_meet_for year, month
+  beginning_of_month = Date.civil(year, month, 1)
+  nwrug = beginning_of_month + (18 - beginning_of_month.wday)
+  nwrug += 7 if beginning_of_month.wday > 4
+
+  # Make sure we skip to the next month if we've gone past this month's meet
+  if nwrug < Date.today
+    if month == 12
+      month = 1
+      year += 1
+    else
+      month += 1
+    end
+    nwrug = nwrug_meet_for year, month
+  end
+
+  nwrug
+end
