@@ -12,7 +12,7 @@ require "uri"
 
 require File.expand_path("rugbot_helper", File.dirname(__FILE__))
 
-BOT_NAME = 'rugbot'
+BOT_NAME = 'rugbut'
 SEEN_LIST = {}
 
 configure do |c|
@@ -51,31 +51,35 @@ on :channel, /^37status$/i do
 end
 
 on :channel, /^nextmeet/i do
-  log_user_seen(nick)
+  # log_user_seen(nick)
+  # 
+  # beginning_of_month = Date.civil(Time.now.year, Time.now.month, 1)
+  # nwrug = beginning_of_month + (18 - beginning_of_month.wday)
+  # nwrug += 7 if beginning_of_month.wday > 4
+  # 
+  # begin
+  #   subject = Nokogiri::HTML(Curl::Easy.perform("http://nwrug.org/events/#{nwrug.strftime("%B%y").downcase}").body_str).css('title').first.content.split("-")[1].strip
+  # rescue
+  #   subject = nil
+  # end
+  # 
+  # date_string = case nwrug
+  # when Date.today
+  #   "Today"
+  # when (Date.today + 1)
+  #   "Tomorrow"
+  # else
+  #   nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B")
+  # end
 
+  # Flatten makes sure we don't end up with "Today - ", but "Today" instead.
+  # msg channel, [string, subject].flatten.join(" - ")
+  
+  
   beginning_of_month = Date.civil(Time.now.year, Time.now.month, 1)
   nwrug = beginning_of_month + (18 - beginning_of_month.wday)
   nwrug += 7 if beginning_of_month.wday > 4
-  
-  begin
-    # Grab ze string from ze website
-    entry_title = Nokogiri::HTML(Curl::Easy.perform("http://nwrug.org/events/").body_str).css('.first_entry h3').first.content.gsub("\342\200\223", "-").strip
-    # Figure out the details we want to return
-    meeting_date, meeting_title = entry_title.split(" - ")
-    details = case Date.parse(meeting_date  )
-    when Date.today
-      "TODAY - #{meeting_title}"
-    when (Date.today + 1)
-      "It's tomorrow - #{meeting_title}"
-    else
-      meeting_date <= Date.today ? nil : entry_title
-    end
-  rescue
-  end
-
-  details ||= ["dunno, pester wlll about it", "no freaking idea, prod wlll for details", "oi wlll, got some nutter here actually wanting to attend. Deal wiv 'im.", "E_NO_DATE, 'wlll is at fault'", "I'm sorry, wlll hasn't entrusted me with that information", "Talk to wlll...", "Ask wlll, he's the brain behind these operations", "I'm just a simple bot, my master wlll has that information"].shuffle.first
-
-  msg channel, details
+  msg channel, nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B")
 end
 
 on :channel, /^.* st[aа]bs/i do
