@@ -63,7 +63,7 @@ on :channel, /^nextmeet/i do
     # Figure out the details we want to return
     meeting_date, meeting_title = entry_title.split(" - ")
 
-    if (d = Date.parse(meeting_date)) && d <= Date.today
+    if (d = Date.parse(meeting_date)) && d >= Date.today
       nwrug = d
       details = meeting_title
     end
@@ -82,8 +82,8 @@ on :channel, /^nextmeet/i do
     nwrug.strftime("%A, #{ordinalize(nwrug.day)} %B")
   end
 
-  # Flatten makes sure we don't end up with "Today - ", but "Today" instead.
-  msg channel, [date_string, details].flatten.join(" - ")
+  # compact makes sure we don't end up with "Today - ", but "Today" instead.
+  msg channel, [date_string, details].compact.join(" - ")
 end
 
 on :channel, /^.* st[aа]bs/i do
