@@ -126,7 +126,7 @@ on :channel, /^seen (.*?)$/i do |user|
 
   user = user.downcase
   msg channel, if SEEN_LIST.has_key?(user)
-    "#{nick}: I last saw #{user.inspect} speak at #{SEEN_LIST[user].strftime("%H:%M:%S on %y-%m-%d")}"
+    "#{nick}: I last saw #{user.inspect} speak at #{SEEN_LIST[user].strftime("%H:%M:%S on %d-%m-%y")}"
   else
     "#{nick}: not seen #{user.inspect} yet, sorry"
   end
