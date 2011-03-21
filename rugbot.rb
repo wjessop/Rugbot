@@ -41,7 +41,13 @@ end
 on :channel, /^(help|commands)$/i do
   log_user_seen(nick)
 
-  msg channel, "roll, nextmeet, artme <string>, stab <nick>, seen <nick>, ram, uptime, 37status, boobs, meme, trollface"
+  msg channel, "roll, nextmeet, artme <string>, stab <nick>, seen <nick>, ram, uptime, 37status, boobs, meme, trollface, dywj"
+end
+
+on :channel, /dywj/ do
+  log_user_seen(nick)
+
+  msg channel, "DAMN YOU WILL JESSOP!!!"
 end
 
 on :channel, /^roll$/i do
