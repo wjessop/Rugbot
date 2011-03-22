@@ -33,10 +33,15 @@ on :channel, /^meme ([A-Z_\-]+) (.+)$/i do |meme, words|
   msg channel, meme.generate(words)
 end
 
+on :channel, /^trollface$/i do
+  log_user_seen(nick)
+  msg channel, "http://images.whatport80.com/images/thumb/c/cf/Trollface.jpg/400px-Trollface.jpg"
+end
+
 on :channel, /^(help|commands)$/i do
   log_user_seen(nick)
 
-  msg channel, "roll, nextmeet, artme <string>, stab <nick>, seen <nick>, ram, uptime, 37status, boobs"
+  msg channel, "roll, nextmeet, artme <string>, stab <nick>, seen <nick>, ram, uptime, 37status, boobs, meme, trollface"
 end
 
 on :channel, /^roll$/i do

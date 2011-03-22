@@ -55,3 +55,7 @@ The status of 37signals stuffs (http://status.37signals.com/api)
 meme Y_U_NO something
 
 See https://github.com/drbrain/meme
+
+- trollface
+
+outputs http://images.whatport80.com/images/thumb/c/cf/Trollface.jpg/400px-Trollface.jpg
