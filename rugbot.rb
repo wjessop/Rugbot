@@ -11,11 +11,13 @@ require 'json'
 require "time"
 require "uri"
 require 'meme'
+require 'imgur'
 
 require File.expand_path("rugbot_helper", File.dirname(__FILE__))
 
-BOT_NAME = 'rugbot'
+BOT_NAME = 'rugbut'
 SEEN_LIST = {}
+IMGUR_API_KEY = "4cdab1b0d1c8831232d477302a981363"
 
 configure do |c|
   c.nick    = BOT_NAME
@@ -30,7 +32,10 @@ end
 on :channel, /^meme ([A-Z_\-]+) (.+)$/i do |meme, words|
   log_user_seen(nick)
   meme = Meme.new(meme)
-  msg channel, meme.generate(words)
+  
+  imgur = Imgur::API.new(IMGUR_API_KEY)
+  im = imgur.upload_from_url(meme.generate(words))
+  msg channel, im['original_image']
 end
 
 on :channel, /^trollface$/i do
