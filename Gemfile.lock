@@ -12,6 +12,8 @@ GEM
     hashie (0.4.0)
     isaac (0.2.6)
     json (1.4.6)
+    meme_generator (1.7.1)
+      nokogiri (~> 1.4)
     multi_json (0.0.5)
     multi_xml (0.2.0)
     multipart-post (1.0.1)
@@ -33,5 +35,6 @@ DEPENDENCIES
   curb
   isaac
   json
+  meme_generator
   nokogiri
   twitter

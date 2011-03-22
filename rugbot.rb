@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'rubygems'
 require "bundler/setup"
 
@@ -9,6 +10,7 @@ require 'cgi'
 require 'json'
 require "time"
 require "uri"
+require 'meme'
 
 require File.expand_path("rugbot_helper", File.dirname(__FILE__))
 
@@ -23,6 +25,12 @@ end
 
 on :connect do
   join "#nwrug"
+end
+
+on :channel, /^meme ([A-Z_\-]+) (.+)$/i do |meme, words|
+  log_user_seen(nick)
+  meme = Meme.new(meme)
+  msg channel, meme.generate(words)
 end
 
 on :channel, /^(help|commands)$/i do

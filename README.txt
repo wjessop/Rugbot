@@ -49,3 +49,9 @@ The status of 37signals stuffs (http://status.37signals.com/api)
 - boobs
 
 (.)(.)
+
+- meme
+
+meme Y_U_NO something
+
+See https://github.com/drbrain/meme
