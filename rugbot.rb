@@ -31,11 +31,18 @@ end
 
 on :channel, /^meme ([A-Z_\-]+) (.+)$/i do |meme, words|
   log_user_seen(nick)
-  meme = Meme.new(meme)
+  begin
+    meme = Meme.new(meme)
   
-  imgur = Imgur::API.new(IMGUR_API_KEY)
-  im = imgur.upload_from_url(meme.generate(words))
-  msg channel, im['original_image']
+    imgur = Imgur::API.new(IMGUR_API_KEY)
+    im = imgur.upload_from_url(meme.generate(words))
+    msg channel, im['original_image']
+  rescue Meme::Error
+    meme = Meme.new('Y_U_NO')
+    imgur = Imgur::API.new(IMGUR_API_KEY)
+    im = imgur.upload_from_url(meme.generate("smart, #{nick}"))
+    msg channel, im['original_image']
+  end
 end
 
 on :channel, /^trollface$/i do
