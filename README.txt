@@ -59,3 +59,7 @@ See https://github.com/drbrain/meme
 - trollface
 
 outputs http://images.whatport80.com/images/thumb/c/cf/Trollface.jpg/400px-Trollface.jpg
+
+- dance
+
+Caius dancing

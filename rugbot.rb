@@ -29,6 +29,10 @@ on :connect do
   join "#nwrug"
 end
 
+on :channel, /^dance$/i do
+  msg channel, "http://no.gd/caiusboogie.gif"
+end
+
 on :channel, /^meme ([A-Z_\-]+) (.+)$/i do |meme, words|
   log_user_seen(nick)
   begin
@@ -53,7 +57,7 @@ end
 on :channel, /^(help|commands)$/i do
   log_user_seen(nick)
 
-  msg channel, "roll, nextmeet, artme <string>, stab <nick>, seen <nick>, ram, uptime, 37status, boobs, meme, trollface, dywj"
+  msg channel, "roll, nextmeet, artme <string>, stab <nick>, seen <nick>, ram, uptime, 37status, boobs, meme, trollface, dywj, dance"
 end
 
 on :channel, /dywj/ do
