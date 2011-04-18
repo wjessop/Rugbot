@@ -217,7 +217,11 @@ on :channel, /(https?:\/\/\S+)/i do |url|
   log_user_seen(nick)
 
   begin
-    title = Nokogiri::HTML(Curl::Easy.perform(url).body_str).css('title').first.content
+    easy = Curl::Easy.perform(url) do |easy|
+      easy.follow_location = true # follow redirects
+    end
+
+    title = Nokogiri::HTML(easy.body_str).css('title').first.content
     msg channel, "#{title}"
   rescue
   end
