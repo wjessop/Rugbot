@@ -192,7 +192,7 @@ on :channel, /https?:\/\/twitter.com(?:\/#!)?\/[\w-]+\/status\/(\d+)/i do |tweet
   begin
     tweet = Twitter.status(tweet_id)
     user = tweet.user
-  rescue Twitter::General => e
+  rescue Twitter::Error => e
     puts "Caught #{e}"
   end
   msg channel, "#{tweet.text} - #{user.name} (#{user.screen_name})" if tweet
