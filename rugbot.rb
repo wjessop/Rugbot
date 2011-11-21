@@ -227,6 +227,25 @@ on :channel, /(https?:\/\/\S+)/i do |url|
   end
 end
 
+# searches twitter for the user's last poopin status
+# will_j last poop
+# => will_j last pooped 4 days, 0 hours, 38 mins and 11 secs ago:  'Poopin'
+# hours of fun
+on :chanel, /([^\/]+?) last poop/ do |user|
+  log_user_seen(nick)
+  begin
+    search = Twitter::Search.new
+    r = search.containing("poopin").from(user).result_type("recent").per_page(1).first
+    if r
+      puts "#{r.from_user} last pooped #{(Time.now - Time.parse(r.created_at)).to_time_length} ago:  '#{r.text}'"
+    else
+      puts "#{user} doesn't seem to have pooped"
+    end
+  rescue => boom
+    puts "Arg! #{boom}"
+  end
+end
+
 # Catchall for seen
 on :channel, /.*/ do
   log_user_seen(nick)
