@@ -63,3 +63,7 @@ outputs http://images.whatport80.com/images/thumb/c/cf/Trollface.jpg/400px-Troll
 - dance
 
 Caius dancing
+
+- <twitter_user> last poop
+
+outputs the user's last poopin status
