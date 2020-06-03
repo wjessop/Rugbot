@@ -1,3 +1,9 @@
+-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~
+
+          Rugbot is no-longer maintained!
+
+-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~
+
 RugBot uses isaac, check out how you can use it here: https://github.com/ichverstehe/isaac
 
 When you add a command please document it here and in the help|commands command in the bot itself.
